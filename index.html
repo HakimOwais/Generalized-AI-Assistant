@@ -17,7 +17,10 @@
             <div class="input-field col s4">
                 <input type="text" id="session-id-input" class="validate" placeholder="Enter session ID">
             </div>
-            <div class="col s3">
+            <div class="input-field col s4">
+                <input type="text" id="query-input" class="validate" placeholder="Enter query">
+            </div>
+            <div class="col s4">
                 <button class="btn waves-effect waves-light" onclick="sendMessage()">Send Message</button>
             </div>
         </div>
@@ -27,44 +30,37 @@
     </div>
 
     <script>
-        let evtSource;
+        let websocket;
 
-        async function sendMessage() {
+        function sendMessage() {
             const sessionId = document.getElementById("session-id-input").value;
+            const query = document.getElementById("query-input").value;
 
-            if (evtSource) {
-                evtSource.close();
+            // Close the previous WebSocket connection if it exists
+            if (websocket) {
+                websocket.close();
             }
 
-            try {
-                const response = await fetch('http://127.0.0.1:8000/summarize/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ sessionId }),
-                });
+            // Create a new WebSocket connection
+            websocket = new WebSocket('ws://localhost:8000/ws/invoke/wildfloc');
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+            websocket.onopen = function () {
+                // Send the session ID and query as JSON when the connection is opened
+                websocket.send(JSON.stringify({ session_id: sessionId, query: query }));
+            };
 
-                const data = await response.json();
+            websocket.onmessage = function (event) {
+                const dataContainer = document.getElementById("data-container");
+                dataContainer.innerHTML += `<p>${event.data}</p>`; // Appending received data
+            };
 
-                evtSource = new EventSource(data.eventSourceUrl);
+            websocket.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
 
-                evtSource.onmessage = function (event) {
-                    const dataContainer = document.getElementById("data-container");
-                    dataContainer.innerHTML += event.data; // Appending token by token
-                };
-
-                evtSource.onerror = function (err) {
-                    console.error("EventSource failed. ReadyState:", evtSource.readyState, "Error:", err);
-                    evtSource.close();
-                };
-            } catch (error) {
-                console.error('Fetch error:', error);
-            }
+            websocket.onclose = function (event) {
+                console.log('WebSocket closed:', event);
+            };
         }
     </script>
     <!-- Compiled and minified JavaScript -->
