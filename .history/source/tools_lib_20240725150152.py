@@ -29,5 +29,4 @@ def search_tool_azal(question: str):
 
 
 # Putting all tools together
-tools_list_wildfloc = [search_tool_wildfloc]
-tools_list_azal = [search_tool_azal]
+tools_list_wildfloc = [search_tool_wildfloc, ]

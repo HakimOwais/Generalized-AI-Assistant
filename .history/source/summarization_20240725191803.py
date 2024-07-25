@@ -74,7 +74,7 @@ def summarize(id:str)->str:
         Your goal is to extract all the human questions and give a summary of this human questions so that a reader will have a full understanding of what happened.
         Your response should be precise and according to what was said in the passage also do sentimental analysis on it and categorize the human questions in the following three
         categories such as negative, positive and neutral assign the categories accordingly in a new line, place just the categories inside curly brackets.
-        Strictly use the categories only nothing else for sentimental analysis.
+        Strictly use the categories only nothing else for sentimental .
 
         ```{text}```
         FULL SUMMARY:

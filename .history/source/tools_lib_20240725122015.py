@@ -19,15 +19,5 @@ def search_tool_wildfloc(question: str):
     return response
 
 
-@tool
-def search_tool_azal(question: str):
-    """This is a websearch tool that you can use for question about any website url"""
-    settings = fetch_settings("azal")
-    web_search = WebSearchTool(settings)
-    response = web_search.wb_tool(question)
-    return response
-
-
 # Putting all tools together
 tools_list_wildfloc = [search_tool_wildfloc]
-tools_list_azal = [search_tool_azal]
