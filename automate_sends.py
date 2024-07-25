@@ -1,15 +1,18 @@
+import os
 import sys
 import telegram
 import asyncio
+from dotenv import load_dotenv
 from source.summarization import *
 
+load_dotenv()
 
 sys.path.append("source")
 sys.path.append("application")
 sys.path.append("configuration")
 
 
-my_token = "7017880287:AAE6qEx1qbNDwgKdglJR5nZKW-oL7hmPXYw"
+my_token = os.getenv("TELEGRAM_TOKEN")
 my_chat_id = 5654807603
 
 returned_data = summarize("123asd")
