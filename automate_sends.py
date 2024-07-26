@@ -13,9 +13,9 @@ sys.path.append("configuration")
 
 
 my_token = os.getenv("TELEGRAM_TOKEN")
-my_chat_id = 5654807603
+# my_chat_id = 5654807603
 
-returned_data = summarize("123asd")
+# returned_data = summarize("123asd")
 
 async def send(msg, chat_id, token=my_token):
 
@@ -25,9 +25,9 @@ async def send(msg, chat_id, token=my_token):
     print("Message Sent!")
 
 
-MessageString = "Hello, People!"
-print(MessageString)
-asyncio.run(send(msg=returned_data, chat_id=my_chat_id, token=my_token))
+# MessageString = "Hello, People!"
+# print(MessageString)
+# asyncio.run(send(msg=returned_data, chat_id=my_chat_id, token=my_token))
 
 
 
