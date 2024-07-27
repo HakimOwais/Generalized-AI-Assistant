@@ -5,6 +5,7 @@ import asyncio
 from dotenv import load_dotenv
 from source.summarization import *
 
+load_dotenv()
 
 load_dotenv()
 
