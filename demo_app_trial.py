@@ -75,14 +75,14 @@ def ai_agent_page():
 def telegram_summarizer_page():
     st.title("Telegram Message Summarizer")
 
-    input_text = st.text_input("Enter the text to summarize")
+    input_text = st.text_input("Enter the chat id to generate report")
 
-    if st.button("Summarize and Send"):
+    if st.button("Generate Report"):
         # Get the summarized text
         summarized_text = summarize(input_text)
 
         # Display the summarized text
-        st.write("Summarized Text:")
+        st.write("Report:")
         st.write(summarized_text)
 
         # Send the summarized text via Telegram

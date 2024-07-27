@@ -8,5 +8,6 @@ langchainhub==0.1.15
 scikit-learn==1.5.0
 uvicorn[standard]
 python-telegram-bot
+streamlit
 
 # - e
