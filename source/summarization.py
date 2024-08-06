@@ -94,7 +94,7 @@ def summarize(id:str)->str:
 
     # Loop through a range of the lenght of your selected docs
     for i, doc in enumerate(selected_docs):
-        
+         
         # Go get a summary of the chunk
         chunk_summary = map_chain.invoke([doc])
         
@@ -102,3 +102,6 @@ def summarize(id:str)->str:
         summary_list.append(chunk_summary)
         
     return chunk_summary['output_text']
+
+
+
