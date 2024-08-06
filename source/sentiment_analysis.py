@@ -104,10 +104,10 @@ def sentiment(id:str)-> str:
 
         sentiments_list.append(chunk_sentiments)
     
-    print(chunk_sentiments['output_text'])
+    # print(chunk_sentiments['output_text'])
 
-    # return chunk_sentiments['output_text']
-    return 
+    return chunk_sentiments['output_text']
+ 
 
 
 if __name__  == "__main__":
