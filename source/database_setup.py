@@ -2,6 +2,8 @@ import os
 from langchain_elasticsearch import ElasticsearchStore
 from elasticsearch import Elasticsearch
 from langchain_openai import OpenAIEmbeddings
+from langchain_mongodb import MongoDBAtlasVectorSearch
+from pymongo import MongoClient
 
 embeddings = OpenAIEmbeddings(api_key=os.environ.get("OPENAI_API_KEY"))
 
@@ -56,3 +58,20 @@ def setup_es_store(index_name: str, es_client: Elasticsearch):
 # Setup Elasticsearch store
 es_store = setup_es_store("azal_activities", es_client)
 
+# define MongoDB Atlas Store (Vector Store Setup)
+# Read values
+DB_NAME = os.getenv("DB_NAME")
+TRANSACTION_COLLECTION_NAME = os.getenv("TRANSACTION_COLLECTION_NAME")
+ATLAS_VECTOR_SEARCH_INDEX_NAME = os.getenv("ATLAS_VECTOR_SEARCH_INDEX_NAME")
+MONGO_URI = os.getenv("MONGO_URI")
+
+client = MongoClient(os.environ.get("MONGO_URI"))
+TRANSACTION_COLLECTION = client[DB_NAME][TRANSACTION_COLLECTION_NAME]
+
+
+vector_store_transactions = MongoDBAtlasVectorSearch(
+    embedding=embeddings,
+    collection=TRANSACTION_COLLECTION,
+    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
+    relevance_score_fn="cosine",  # or another similarity function as needed
+)

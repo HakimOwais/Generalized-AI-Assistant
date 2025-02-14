@@ -14,7 +14,7 @@ sys.path.insert(2, "application")
 sys.path.insert(3, "configuration")
 
 # Importing input schemas
-from schemas import QueryInput, SettingsInput, SummarizeRequest
+from schemas import QueryInput, SettingsInput, SummarizeRequest, QueryInputChat
 
 # Importing functions to fetch and update settings
 from settings_manager import fetch_settings, insert_settings
@@ -61,6 +61,28 @@ async def invoke_agent(app_id: str, query_input:QueryInput) -> dict:
             dict: Result returned by the agent.
         """
     in_params= {"app_name": app_id, "session_id": query_input.session_id, "query": query_input.query}
+    try:
+        settings = fetch_settings(app_id)
+        if settings is None:
+            raise HTTPException(status_code=404, detail="Settings not found")
+        result = execute_agent_0(in_params, settings)
+        return {"result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/invoke_personal_chat/{app_id}")
+async def invoke_personal_chat(app_id: str, query_input:QueryInputChat) -> dict:
+    """
+        Endpoint to invoke the agent driver function using the app_id and input parameters.
+
+        Args:
+            app_id (str): The name of the application.
+            query_input (QueryInput): Input parameters including session_id and query.
+
+        Returns:
+            dict: Result returned by the agent.
+        """
+    in_params= {"app_name": app_id, "session_id": query_input.session_id, "query": f"{query_input.query}, Here is my email:{ query_input.email}"}
     try:
         settings = fetch_settings(app_id)
         if settings is None:

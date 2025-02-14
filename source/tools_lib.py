@@ -10,6 +10,7 @@ from source.search_tools import WebSearchTool
 from application.settings_manager import fetch_settings
 
 from database_setup import es_store
+from personalize_chat_components import qa_transactions_driver
 
 @tool
 def search_tool_wildfloc(question: str):
@@ -35,9 +36,21 @@ def azal_database_tool(question:str):
     docs = es_store.as_retriever().invoke(question)
     return docs
 
+@tool
+def jordan_presonalize_tool(email: str, question: str):
+    """
+    This tool fetches the information from MongoDB databse about the user based on the email
+    """
+    context = qa_transactions_driver(email=email, query=question)
+    return context
+
+
+
 # Putting all tools together
 # tools_list_wildfloc = [search_tool_wildfloc]
-tools_list_jordan = [search_tool_jordan,
-                    azal_database_tool
+tools_list_jordan = [
+                    search_tool_jordan,
+                    jordan_presonalize_tool
                     ]
+
 

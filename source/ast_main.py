@@ -56,7 +56,7 @@ class AgentManager:
         agent_executer= AgentExecutor(
             agent=agent,
             tools=tools_list,
-            verbose=False,
+            verbose=True,
             return_intermediate_steps=True,
             early_stopping_method="generate",
             callbacks=[StreamingStdOutCallbackHandler()]
